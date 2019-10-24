@@ -2,15 +2,19 @@ import scrapy
 import pymongo
 import sys
 
+
 class Scrapper(scrapy.Spider):
     name = 'Scraper'
-    start_urls = ['http://www.aide2019.in']
-    def __init__(self):
+    def __init__(self,url='', *args,**kwargs):
+        super(Scrapper, self).__init__(*args, **kwargs)
         self.maxDepth=500
         self.item=0
+        self.start_urls = url
     
     def parse(self, response):
+        print(self.url)
         url = response.url
+        title = response.url
         title = response.xpath("//title/text()").get()
         try:
             description = response.xpath("//meta[@name='description']/@content")[0].extract()
